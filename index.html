@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Per Te 🌊</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            overflow: hidden;
+            background: linear-gradient(180deg, #0077b6 0%, #03045e 100%);
+            background-size: 100% 200%;
+            animation: oceanFlow 8s ease-in-out infinite alternate;
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        @keyframes oceanFlow {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 0% 100%; }
+        }
+
+        #ocean, #bubbles, #mini-hearts-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        #mini-hearts-container {
+            z-index: 7;
+        }
+
+        .bubble {
+            position: absolute;
+            bottom: -20px;
+            background: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            box-shadow: inset 2px 2px 5px rgba(255,255,255,0.8);
+            animation: floatUp linear infinite;
+        }
+
+        @keyframes floatUp {
+            to { transform: translateY(-120vh); opacity: 0; }
+        }
+
+        .fish-container {
+            position: absolute;
+            z-index: 2;
+            transition: opacity 1.5s ease-out;
+            will-change: transform;
+        }
+
+        .fish-bobbing {
+            animation: bobbing 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes bobbing {
+            from { transform: translateY(-15px); }
+            to { transform: translateY(15px); }
+        }
+
+        .fish-svg {
+            width: 120px;
+            height: 80px;
+            filter: drop-shadow(3px 5px 6px rgba(0,0,0,0.5));
+        }
+
+        .bg-fish {
+            color: #00b4d8; 
+            opacity: 0.6;
+        }
+
+        #text-container {
+            z-index: 10;
+            text-align: center;
+            padding: 20px;
+            font-family: 'Dancing Script', cursive;
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            text-shadow: 2px 4px 12px rgba(0,0,0,0.9);
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            max-width: 80%;
+        }
+
+        .signature {
+            display: block;
+            font-size: 2rem;
+            margin-top: 15px;
+            opacity: 0.8;
+        }
+
+        .special-fish-container {
+            position: absolute;
+            opacity: 0;
+            transition: all 2s cubic-bezier(0.25, 0.8, 0.25, 1);
+            z-index: 5;
+        }
+
+        .special-fish-svg {
+            width: 180px;
+            height: 120px;
+            filter: drop-shadow(8px 12px 18px rgba(0,0,0,0.7));
+        }
+
+        #him-fish {
+            left: 50%;
+            top: 60%;
+            transform: translate(-50%, -50%) scaleX(-1);
+            color: #ff9f1c; 
+        }
+
+        #her-fish {
+            left: -20%;
+            top: 60%;
+            transform: translate(-50%, -50%);
+            color: #ff5d8f;
+        }
+
+        #heart {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            transition: transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 1s ease;
+            z-index: 6;
+        }
+
+        #heart svg {
+            width: 90px;
+            height: 90px;
+            fill: #ff0054;
+            filter: drop-shadow(0 5px 15px rgba(255, 0, 84, 0.6));
+            animation: pulse 1s infinite alternate;
+        }
+
+        .mini-heart {
+            position: absolute;
+            fill: #ff5d8f;
+            filter: drop-shadow(0 2px 5px rgba(255, 0, 84, 0.5));
+            animation: explodeOut 3s ease-out forwards;
+        }
+
+        @keyframes pulse {
+            to { transform: scale(1.15); }
+        }
+
+        @keyframes explodeOut {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)) scale(var(--s)); opacity: 0; }
+        }
+
+        #start-btn {
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            color: white;
+            border-radius: 50px;
+            cursor: pointer;
+            z-index: 20;
+            backdrop-filter: blur(8px);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            font-family: 'Segoe UI', Tahoma, sans-serif;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        #start-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.5);
+        }
+
+        @keyframes swimRight {
+            from { transform: translateX(-20vw); }
+            to { transform: translateX(120vw); }
+        }
+        @keyframes swimLeft {
+            from { transform: translateX(120vw) scaleX(-1); }
+            to { transform: translateX(-20vw) scaleX(-1); }
+        }
+    </style>
+</head>
+<body>
+
+    <button id="start-btn">Clicca qui 🌊</button>
+
+    <div id="ocean"></div>
+    <div id="bubbles"></div>
+    <div id="mini-hearts-container"></div>
+    
+    <div id="text-container"></div>
+
+    <div id="him-fish" class="special-fish-container">
+        <div class="fish-bobbing">
+            <svg class="special-fish-svg" viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg">
+                <path d="M 30,40 L 5,15 L 15,40 L 5,65 Z" fill="currentColor"/>
+                <path d="M 25,40 C 25,10 95,5 115,40 C 95,75 25,70 25,40 Z" fill="currentColor"/>
+                <circle cx="90" cy="30" r="4" fill="white"/>
+                <circle cx="91" cy="30" r="2" fill="#03045e"/>
+                <path d="M 55,40 Q 65,25 75,40" stroke="white" stroke-width="2" fill="none" opacity="0.6"/>
+            </svg>
+        </div>
+    </div>
+
+    <div id="her-fish" class="special-fish-container">
+        <div class="fish-bobbing">
+            <svg class="special-fish-svg" viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg">
+                <path d="M 30,40 L 5,15 L 15,40 L 5,65 Z" fill="currentColor"/>
+                <path d="M 25,40 C 25,10 95,5 115,40 C 95,75 25,70 25,40 Z" fill="currentColor"/>
+                <circle cx="90" cy="30" r="4" fill="white"/>
+                <circle cx="91" cy="30" r="2" fill="#03045e"/>
+                <path d="M 88,25 Q 90,23 93,25" stroke="#03045e" stroke-width="1.5" fill="none"/>
+                <path d="M 55,40 Q 65,25 75,40" stroke="white" stroke-width="2" fill="none" opacity="0.6"/>
+            </svg>
+        </div>
+    </div>
+    
+    <div id="heart">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+        </svg>
+    </div>
+
+    <script>
+        const ocean = document.getElementById('ocean');
+        const bubblesContainer = document.getElementById('bubbles');
+        const miniHeartsContainer = document.getElementById('mini-hearts-container');
+        const textEl = document.getElementById('text-container');
+        const him = document.getElementById('him-fish');
+        const her = document.getElementById('her-fish');
+        const heart = document.getElementById('heart');
+        const startBtn = document.getElementById('start-btn');
+        
+        let bgFishInterval;
+        let bubbleInterval;
+
+        const fishSvgTemplate = `
+            <div class="fish-bobbing">
+                <svg class="fish-svg" viewBox="0 0 120 80" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M 30,40 L 5,15 L 15,40 L 5,65 Z" fill="currentColor"/>
+                    <path d="M 25,40 C 25,10 95,5 115,40 C 95,75 25,70 25,40 Z" fill="currentColor"/>
+                    <circle cx="90" cy="30" r="3" fill="white"/>
+                    <circle cx="91" cy="30" r="1.5" fill="#03045e"/>
+                    <path d="M 55,40 Q 65,25 75,40" stroke="white" stroke-width="2" fill="none" opacity="0.4"/>
+                </svg>
+            </div>
+        `;
+
+        startBtn.addEventListener('click', () => {
+            startBtn.style.display = 'none';
+            bubbleInterval = setInterval(createBubble, 300);
+
+            // FASE 1
+            textEl.innerText = "In un mare pieno di pesci...";
+            textEl.style.opacity = 1;
+            bgFishInterval = setInterval(createBgFish, 350);
+            
+            // FASE 2
+            setTimeout(() => {
+                clearInterval(bgFishInterval);
+                document.querySelectorAll('.fish-container').forEach(f => f.style.opacity = 0);
+                textEl.style.opacity = 0;
+                
+                setTimeout(() => {
+                    textEl.innerText = "...io voglio solo te.";
+                    textEl.style.opacity = 1;
+                    him.style.opacity = 1;
+                }, 1000);
+            }, 4500);
+
+            // FASE 3
+            setTimeout(() => {
+                textEl.style.opacity = 0;
+                setTimeout(() => {
+                    textEl.innerText = "Non c'è nessun altro con cui vorrei esplorare i fondali della vita.";
+                    textEl.style.opacity = 1;
+                    
+                    her.style.opacity = 1;
+                    her.style.left = "30%"; 
+                    him.style.left = "70%"; 
+                }, 1000);
+            }, 9500);
+
+            // FASE 4 (Il bacio)
+            setTimeout(() => {
+                textEl.style.opacity = 0;
+                
+                her.style.left = "43%";
+                him.style.left = "57%";
+                her.querySelector('.fish-bobbing').style.animation = 'none';
+                him.querySelector('.fish-bobbing').style.animation = 'none';
+                her.style.transform = "translate(-50%, -50%) rotate(-15deg)";
+                him.style.transform = "translate(-50%, -50%) scaleX(-1) rotate(-15deg)";
+                
+                setTimeout(() => {
+                    heart.style.transform = "translate(-50%, -50%) scale(1)";
+                }, 1200);
+            }, 14500);
+
+            // FASE 5 (L'allontanamento felice e dedica finale)
+            setTimeout(() => {
+                // Il cuore centrale esplode in tanti piccoli cuori e sparisce
+                createHeartExplosion();
+                heart.style.opacity = 0;
+                heart.style.transform = "translate(-50%, -50%) scale(1.5)";
+
+                // Mostra il testo finale
+                setTimeout(() => {
+                    textEl.innerHTML = "Ti amo.<br><span class='signature'>Tua, Mev ❤️</span>";
+                    textEl.style.opacity = 1;
+                }, 500);
+
+                // Riattiva l'animazione di nuoto
+                her.querySelector('.fish-bobbing').style.animation = 'bobbing 2s ease-in-out infinite alternate';
+                him.querySelector('.fish-bobbing').style.animation = 'bobbing 2s ease-in-out infinite alternate';
+
+                // Entrambi si girano verso destra (scaleX(1) è la loro forma naturale)
+                her.style.transform = "translate(-50%, -50%) scaleX(1)";
+                him.style.transform = "translate(-50%, -50%) scaleX(1)";
+                
+                // Rallentiamo la transizione per un nuoto finale dolcissimo
+                her.style.transition = "all 6s ease-in";
+                him.style.transition = "all 6s ease-in";
+
+                // Nuotano via verso destra
+                her.style.left = "130%";
+                him.style.left = "130%";
+                
+                // Salgono leggermente verso l'alto
+                her.style.top = "40%";
+                him.style.top = "45%";
+
+            }, 19000);
+        });
+
+        function createHeartExplosion() {
+            for(let i = 0; i < 30; i++) {
+                const miniHeart = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                miniHeart.setAttribute("viewBox", "0 0 24 24");
+                miniHeart.classList.add("mini-heart");
+                
+                const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+                path.setAttribute("d", "M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z");
+                miniHeart.appendChild(path);
+
+                // Calcoli per la direzione dell'esplosione
+                const angle = Math.random() * Math.PI * 2;
+                const distance = Math.random() * 200 + 50;
+                const tx = Math.cos(angle) * distance + "px";
+                const ty = Math.sin(angle) * distance - 100 + "px"; // Tendono ad andare verso l'alto
+                const scale = Math.random() * 1.5 + 0.5;
+                
+                miniHeart.style.setProperty('--tx', tx);
+                miniHeart.style.setProperty('--ty', ty);
+                miniHeart.style.setProperty('--s', scale);
+                
+                miniHeart.style.width = "20px";
+                miniHeart.style.height = "20px";
+                miniHeart.style.left = "50%";
+                miniHeart.style.top = "40%";
+
+                miniHeartsContainer.appendChild(miniHeart);
+                
+                // Rimuove i cuoricini alla fine dell'animazione
+                setTimeout(() => { miniHeart.remove(); }, 3000);
+            }
+        }
+
+        function createBgFish() {
+            const fish = document.createElement('div');
+            fish.classList.add('fish-container', 'bg-fish');
+            fish.innerHTML = fishSvgTemplate;
+            
+            const isRight = Math.random() > 0.5;
+            fish.style.top = (Math.random() * 70 + 15) + 'vh'; 
+            
+            const colors = ['#00b4d8', '#90e0ef', '#48cae4', '#0096c7'];
+            fish.style.color = colors[Math.floor(Math.random() * colors.length)];
+            
+            const scale = Math.random() * 0.5 + 0.5;
+            fish.style.transform = `scale(${scale}) ${!isRight ? 'scaleX(-1)' : ''}`;
+
+            fish.style.animation = `${isRight ? 'swimRight' : 'swimLeft'} ${Math.random() * 4 + 5}s linear forwards`;
+            
+            ocean.appendChild(fish);
+            setTimeout(() => { fish.remove(); }, 9000);
+        }
+
+        function createBubble() {
+            const bubble = document.createElement('div');
+            bubble.classList.add('bubble');
+            
+            const size = Math.random() * 15 + 5;
+            bubble.style.width = `${size}px`;
+            bubble.style.height = `${size}px`;
+            bubble.style.left = `${Math.random() * 100}vw`;
+            
+            const duration = Math.random() * 3 + 4;
+            bubble.style.animationDuration = `${duration}s`;
+            
+            bubblesContainer.appendChild(bubble);
+            setTimeout(() => { bubble.remove(); }, duration * 1000);
+        }
+    </script>
+</body>
+</html>
